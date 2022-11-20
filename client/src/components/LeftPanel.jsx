@@ -12,24 +12,10 @@ const LeftPanel = () => {
     <VStack width="25%">
       <ProfileCard />
       <SearchCard />
-      <VStack
-        width="100%"
-        overflowY="auto"
-        overflowX="hidden"
-        maxH="80vh"
-        spacing="0"
-      >
-        <UserCard />
-        <UserCard />
-        <UserCard /> <UserCard />
-        <UserCard />
-        <UserCard /> <UserCard />
-        <UserCard />
-        <UserCard /> <UserCard />
-        <UserCard />
-        <UserCard /> <UserCard />
-        <UserCard />
-        <UserCard />
+      <VStack width="100%" overflowY="auto" overflowX="hidden" maxH="80vh" spacing="0">
+        {state.users?.map((user) => (
+          <UserCard key={user.socketId} {...user} />
+        ))}
       </VStack>
     </VStack>
   );

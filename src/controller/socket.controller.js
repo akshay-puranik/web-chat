@@ -16,8 +16,7 @@ class Connection {
 
   userDisconnect(soc) {
     users.forEach((el) => (el.socketId == soc.id ? (el.status = Date.now()) : el));
-
-    this.io.emit("users", users);
+    this.io.emit("Users", users);
   }
 
   sendMessage(message) {
@@ -38,7 +37,12 @@ class User {
 const chat = (io) => {
   io.on("connection", (socket) => {
     const { userId, name } = socket.handshake.auth.user;
-    users.push(new User(userId, name, socket.id));
+    let ind = users.findIndex((el) => el.userId === userId);
+
+    ind != -1
+      ? (users[ind] = { ...users[ind], status: "Online", socketId: socket.id })
+      : users.push(new User(userId, name, socket.id));
+
     io.emit("Users", users);
     new Connection(io, socket);
   });
