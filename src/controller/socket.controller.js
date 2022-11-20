@@ -20,8 +20,7 @@ class Connection {
   }
 
   sendMessage(data) {
-    console.log(data);
-    let to = users.filter((el) => el.userId == data.userId);
+    let to = users.find((el) => el.userId == data.to);
     this.io.to(to.socketId).emit("receiveMessage", data);
   }
 }

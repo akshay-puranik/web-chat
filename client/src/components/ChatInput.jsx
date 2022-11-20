@@ -17,7 +17,6 @@ const ChatInput = () => {
   const [input, setInput] = useState("");
 
   const handleClick = () => {
-    console.log(input, "ipou");
     if (!input.length) return;
 
     let msg = {

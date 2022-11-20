@@ -1,6 +1,8 @@
 import { Avatar, HStack, Text, VStack } from "@chakra-ui/react";
+import { useContext } from "react";
+import { AppContext } from "../context/AppContext";
 
-const MessageRow = ({ self }) => {
+const MessageRow = ({ self, message, date }) => {
   return (
     <VStack
       alignItems="flex-start"
@@ -12,10 +14,10 @@ const MessageRow = ({ self }) => {
       alignSelf={self ? "flex-end" : "flex-start"}
       boxShadow="rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px"
     >
-      <Text>I am Full Stack Developer Developer Developer Developer..</Text>
+      <Text>{message}</Text>
       <br />
       <Text fontSize="0.8em" as="i" pos="absolute" bottom="1" right="2">
-        ~ 9.10 pm
+        ~ {new Date(date).toLocaleString()}
       </Text>
     </VStack>
   );
@@ -36,19 +38,15 @@ const ChatHeader = () => {
 };
 
 const MessageContainer = () => {
+  const { state, dispatch } = useContext(AppContext);
+
   return (
     <VStack width="100%">
       <ChatHeader />
       <VStack p="4" width="100%" maxH="78vh" gap="4" overflowY="auto">
-        <MessageRow self={true} />
-        <MessageRow self={false} />
-        <MessageRow self={true} />
-        <MessageRow self={true} />
-        <MessageRow self={false} />
-        <MessageRow self={true} />
-        <MessageRow self={true} />
-        <MessageRow self={false} />
-        <MessageRow self={true} />
+        {state.chats?.map((chat, i) => {
+          return <MessageRow key={i} self={chat.from === state.mySelf.userId} {...chat} />;
+        })}
       </VStack>
     </VStack>
   );

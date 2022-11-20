@@ -13,7 +13,7 @@ export const socket = io("http://localhost:8080", { autoConnect: false });
 
 export default function App() {
   const { state, dispatch } = useContext(AppContext);
-
+  console.log(state.chats);
   useEffect(() => dispatch({ type: SET_MYSELF, payload: { userId: name, name: name } }), []);
 
   useEffect(() => {
@@ -24,7 +24,9 @@ export default function App() {
   }, [state.mySelf.userId]);
 
   socket.on("Users", (users) => dispatch({ type: SET_USERS, payload: users }));
+  // 3 times dispatch happening
   socket.on("receiveMessage", (msg) => dispatch({ type: ADD_MESSAGE, payload: msg }));
+
   return (
     <div>
       <AppContainer />

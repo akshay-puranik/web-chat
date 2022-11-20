@@ -9,7 +9,8 @@ export const reducer = (state, { type, payload }) => {
     case types.SET_SELECTED_USER:
       return { ...state, selectedUser: payload };
     case types.ADD_MESSAGE:
-      return { ...state, chats: state.chats.push(payload) };
+      console.log("Hiii");
+      return { ...state, chats: [...state.chats, payload] };
     case types.CLEAR_CHAT:
       return { ...state, chats: [] };
     default:
