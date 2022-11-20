@@ -1,24 +1,29 @@
 import AppContainer from "./components/AppContainer";
 import "./styles.css";
 import { io } from "socket.io-client";
-import { useEffect, useState } from "react";
-
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "./context/AppContext";
+import { SET_MYSELF, SET_USERS } from "./context/actionTypes";
 let name = null;
 do {
   name = prompt("Enter your name(unique id)");
 } while (!name);
 
 export default function App() {
+  const { state, dispatch } = useContext(AppContext);
   const socket = io("http://localhost:8080", { autoConnect: false });
-  const [myName, setMyName] = useState(name);
+  console.log(state, "States");
+
+  useEffect(() => dispatch({ type: SET_MYSELF, payload: { userId: name, name: name } }), []);
+
   useEffect(() => {
-    if (myName) {
-      socket.auth = { user: { userId: myName, name: myName } };
+    if (state.mySelf.userId) {
+      socket.auth = { user: state.mySelf };
       socket.connect();
     }
-  }, [myName]);
+  }, [state.mySelf.userId]);
 
-  socket.on("Users", (users) => console.log(users));
+  socket.on("Users", (users) => dispatch({ type: SET_USERS, payload: users }));
 
   return (
     <div>

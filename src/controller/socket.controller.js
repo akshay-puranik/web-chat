@@ -1,4 +1,4 @@
-const users = {}; //key should be unique and constant ex. userId
+const users = []; //key should be unique and constant ex. userId
 
 class Connection {
   constructor(io, socket) {
@@ -10,12 +10,13 @@ class Connection {
     socket.on("disconnect", () => this.userDisconnect(socket));
   }
 
-  userConnected(soc) {
-    users[soc.id] = new User("User", soc.id);
-  }
+  // userConnected(soc) {
+  //   users[soc.id] = new User("User", soc.id);
+  // }
 
   userDisconnect(soc) {
-    if (users[soc.id]) users[soc.id].status = Date.now();
+    users.forEach((el) => (el.socketId == soc.id ? (el.status = Date.now()) : el));
+
     this.io.emit("users", users);
   }
 
@@ -26,7 +27,8 @@ class Connection {
 }
 
 class User {
-  constructor(name, socketId) {
+  constructor(userId, name, socketId) {
+    this.userId = userId;
     this.name = name;
     this.socketId = socketId;
     this.status = "Online";
@@ -36,10 +38,9 @@ class User {
 const chat = (io) => {
   io.on("connection", (socket) => {
     const { userId, name } = socket.handshake.auth.user;
-    users[userId] = new User(name, socket.id);
-
+    users.push(new User(userId, name, socket.id));
     io.emit("Users", users);
-    let temp = new Connection(io, socket);
+    new Connection(io, socket);
   });
 };
 

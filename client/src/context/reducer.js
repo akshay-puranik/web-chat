@@ -1,7 +1,11 @@
-export const reducer = (state, { type, paylaod }) => {
+import * as types from "./actionTypes";
+
+export const reducer = (state, { type, payload }) => {
   switch (type) {
-    case "A":
-      return { ...state };
+    case types.SET_MYSELF:
+      return { ...state, mySelf: payload };
+    case types.SET_USERS:
+      return { ...state, users: payload };
     default:
       return state;
   }
