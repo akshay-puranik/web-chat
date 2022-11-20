@@ -4,17 +4,26 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  InputRightElement
+  InputRightElement,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FiSend } from "react-icons/fi";
+import { socket } from "../App";
+import { AppContext } from "../context/AppContext";
 
 const ChatInput = () => {
+  const { store, dispatch } = useContext(AppContext);
   const [input, setInput] = useState("");
+
   const handleClick = () => {
     if (!input.length) return;
+    let msg = { message: input, to: store.selectedUser.socketId, date: Date.now() };
+
+    socket.emit("sendMessage", msg);
+
     setInput("");
   };
+
   return (
     <Box width="96%" pos="absolute" bottom="0" zIndex="100" bg="white">
       <InputGroup size="lg">

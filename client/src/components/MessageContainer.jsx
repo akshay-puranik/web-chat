@@ -23,13 +23,7 @@ const MessageRow = ({ self }) => {
 
 const ChatHeader = () => {
   return (
-    <HStack
-      height="10vh"
-      width="100%"
-      borderBottom="1px solid #d6dee1"
-      p="2"
-      gap="3"
-    >
+    <HStack height="10vh" width="100%" borderBottom="1px solid #d6dee1" p="2" gap="3">
       <HStack gap="3">
         <Avatar src="https://bit.ly/ryan-florence" />
         <Text fontWeight="500" fontSize="lg">
@@ -43,9 +37,9 @@ const ChatHeader = () => {
 
 const MessageContainer = () => {
   return (
-    <VStack width="100%" maxH="90vh">
+    <VStack width="100%">
       <ChatHeader />
-      <VStack p="4" width="100%" maxH="74vh" gap="4" overflowY="auto">
+      <VStack p="4" width="100%" maxH="78vh" gap="4" overflowY="auto">
         <MessageRow self={true} />
         <MessageRow self={false} />
         <MessageRow self={true} />

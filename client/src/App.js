@@ -9,10 +9,10 @@ do {
   name = prompt("Enter your name(unique id)");
 } while (!name);
 
+export const socket = io("http://localhost:8080", { autoConnect: false });
+
 export default function App() {
   const { state, dispatch } = useContext(AppContext);
-  const socket = io("http://localhost:8080", { autoConnect: false });
-  console.log(state, "States");
 
   useEffect(() => dispatch({ type: SET_MYSELF, payload: { userId: name, name: name } }), []);
 

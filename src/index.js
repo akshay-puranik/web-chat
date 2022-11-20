@@ -17,5 +17,5 @@ let server = app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
 
-const io = require("socket.io")(server);
+const io = require("socket.io")(server, { cors: { origin: "*" } });
 chat(io);

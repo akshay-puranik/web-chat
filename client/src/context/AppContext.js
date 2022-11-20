@@ -5,8 +5,9 @@ export const AppContext = createContext();
 const initState = {
   mySelf: {},
   users: [],
+  chats: [],
   isAuth: true,
-  selectedUser: null,
+  selectedUser: {},
 };
 const AppContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initState);

@@ -6,7 +6,7 @@ import { AppContext } from "../context/AppContext";
 const UserCard = ({ userId, name, status, socketId }) => {
   const { state, dispatch } = useContext(AppContext);
 
-  const handleClick = () => dispatch({ type: SET_SELECTED_USER, payload: socketId });
+  const handleClick = () => dispatch({ type: SET_SELECTED_USER, payload: { userId, socketId } });
 
   return (
     <HStack

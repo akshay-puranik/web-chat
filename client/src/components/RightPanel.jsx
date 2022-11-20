@@ -4,7 +4,7 @@ import MessageContainer from "./MessageContainer";
 
 const RightPanel = () => {
   return (
-    <VStack width="70%" pos="relative">
+    <VStack width="70%" pos="relative" height="96vh">
       <MessageContainer />
       <ChatInput />
     </VStack>
