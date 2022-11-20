@@ -1,4 +1,4 @@
-const users = new Map(); //key should be unique and constant ex. userId
+const users = {}; //key should be unique and constant ex. userId
 
 class Connection {
   constructor(io, socket) {
@@ -6,29 +6,28 @@ class Connection {
     this.socket = socket;
 
     socket.on("connect", () => this.userConnected(socket));
-    socket.on("sendMessage", (message) => {});
-    socket.on("disconnect", () => userDisconnect(socket));
+    socket.on("sendMessage", (message) => this.sendMessage(message));
+    socket.on("disconnect", () => this.userDisconnect(socket));
   }
 
-  userConnected(socket) {
-    users.set(socket.id, new User("User", socket.id));
-    console.log("New User", socket.id);
+  userConnected(soc) {
+    users[soc.id] = new User("User", soc.id);
   }
 
-  userDisconnect(socket) {
-    let user = users.get(socket.id);
-    user.status = Date.now();
-    users.set(socket.id, user);
-    console.log("New User", socket.id);
+  userDisconnect(soc) {
+    if (users[soc.id]) users[soc.id].status = Date.now();
+    this.io.emit("users", users);
   }
 
   sendMessage(message) {
-    this.io.sockets.emit("message", message);
+    console.log(message);
+    // this.io.sockets.emit("message", message);
   }
 }
+
 class User {
   constructor(name, socketId) {
-    this.name = name + "" + socketId;
+    this.name = name;
     this.socketId = socketId;
     this.status = "Online";
   }
@@ -36,7 +35,11 @@ class User {
 
 const chat = (io) => {
   io.on("connection", (socket) => {
-    new Connection(io, socket);
+    const { userId, name } = socket.handshake.auth.user;
+    users[userId] = new User(name, socket.id);
+
+    io.emit("Users", users);
+    let temp = new Connection(io, socket);
   });
 };
 
