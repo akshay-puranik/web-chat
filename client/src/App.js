@@ -20,6 +20,7 @@ export default function App() {
     if (state.mySelf.userId) {
       socket.auth = { user: state.mySelf };
       socket.connect();
+      console.log("Welcome");
     }
   }, [state.mySelf.userId]);
 

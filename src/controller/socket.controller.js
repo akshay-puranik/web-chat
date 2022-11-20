@@ -36,6 +36,7 @@ class User {
 
 const chat = (io) => {
   io.on("connection", (socket) => {
+    console.log(socket.id);
     const { userId, name } = socket.handshake.auth.user;
     let ind = users.findIndex((el) => el.userId === userId);
 
