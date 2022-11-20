@@ -9,18 +9,26 @@ import {
 import { useContext, useState } from "react";
 import { FiSend } from "react-icons/fi";
 import { socket } from "../App";
+import { ADD_MESSAGE } from "../context/actionTypes";
 import { AppContext } from "../context/AppContext";
 
 const ChatInput = () => {
-  const { store, dispatch } = useContext(AppContext);
+  const { state, dispatch } = useContext(AppContext);
   const [input, setInput] = useState("");
 
   const handleClick = () => {
+    console.log(input, "ipou");
     if (!input.length) return;
-    let msg = { message: input, to: store.selectedUser.socketId, date: Date.now() };
+
+    let msg = {
+      from: state.mySelf.userId,
+      to: state.selectedUser,
+      message: input,
+      date: Date.now(),
+    };
 
     socket.emit("sendMessage", msg);
-
+    dispatch({ type: ADD_MESSAGE, payload: msg });
     setInput("");
   };
 

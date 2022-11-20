@@ -19,9 +19,10 @@ class Connection {
     this.io.emit("Users", users);
   }
 
-  sendMessage(message) {
-    console.log(message);
-    // this.io.sockets.emit("message", message);
+  sendMessage(data) {
+    console.log(data);
+    let to = users.filter((el) => el.userId == data.userId);
+    this.io.to(to.socketId).emit("receiveMessage", data);
   }
 }
 

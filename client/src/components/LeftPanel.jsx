@@ -14,7 +14,7 @@ const LeftPanel = () => {
       <SearchCard />
       <VStack width="100%" overflowY="auto" overflowX="hidden" maxH="80vh" spacing="0">
         {state.users?.map((user) => (
-          <UserCard key={user.socketId} {...user} />
+          <UserCard key={user.userId} {...user} />
         ))}
       </VStack>
     </VStack>

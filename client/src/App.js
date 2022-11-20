@@ -3,7 +3,7 @@ import "./styles.css";
 import { io } from "socket.io-client";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "./context/AppContext";
-import { SET_MYSELF, SET_USERS } from "./context/actionTypes";
+import { ADD_MESSAGE, SET_MYSELF, SET_USERS } from "./context/actionTypes";
 let name = null;
 do {
   name = prompt("Enter your name(unique id)");
@@ -24,7 +24,7 @@ export default function App() {
   }, [state.mySelf.userId]);
 
   socket.on("Users", (users) => dispatch({ type: SET_USERS, payload: users }));
-
+  socket.on("receiveMessage", (msg) => dispatch({ type: ADD_MESSAGE, payload: msg }));
   return (
     <div>
       <AppContainer />

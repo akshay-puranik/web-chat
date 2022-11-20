@@ -1,12 +1,15 @@
 import { Avatar, AvatarBadge, HStack, Text, VStack } from "@chakra-ui/react";
 import { useContext } from "react";
-import { SET_SELECTED_USER } from "../context/actionTypes";
+import { CLEAR_CHAT, SET_SELECTED_USER } from "../context/actionTypes";
 import { AppContext } from "../context/AppContext";
 
-const UserCard = ({ userId, name, status, socketId }) => {
+const UserCard = ({ userId, name, status }) => {
   const { state, dispatch } = useContext(AppContext);
 
-  const handleClick = () => dispatch({ type: SET_SELECTED_USER, payload: { userId, socketId } });
+  const handleClick = () => {
+    dispatch({ type: SET_SELECTED_USER, payload: userId });
+    dispatch({ type: CLEAR_CHAT });
+  };
 
   return (
     <HStack

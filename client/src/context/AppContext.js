@@ -4,10 +4,10 @@ import { reducer } from "./reducer";
 export const AppContext = createContext();
 const initState = {
   mySelf: {},
+  selectedUser: null,
   users: [],
   chats: [],
   isAuth: true,
-  selectedUser: {},
 };
 const AppContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initState);
