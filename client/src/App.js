@@ -9,7 +9,7 @@ do {
   name = prompt("Enter your name(unique id)");
 } while (!name);
 
-export const socket = io(process.env.REACT_APP_BASE_URL, { autoConnect: false });
+export const socket = io("https://uninterested-leopard.cyclic.app", { autoConnect: false });
 
 export default function App() {
   const { state, dispatch } = useContext(AppContext);
